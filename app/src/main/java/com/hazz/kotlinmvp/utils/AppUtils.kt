@@ -12,17 +12,13 @@ import java.security.MessageDigest
  */
 
 class AppUtils private constructor() {
-
-
     init {
         throw Error("Do not need instantiate!")
     }
 
     companion object {
-
         private val DEBUG = true
         private val TAG = "AppUtils"
-
 
         /**
          * 得到软件版本号
@@ -34,24 +30,12 @@ class AppUtils private constructor() {
             var verCode = -1
             try {
                 val packageName = context.packageName
-                verCode = context.packageManager
-                        .getPackageInfo(packageName, 0).versionCode
+                verCode = context.packageManager.getPackageInfo(packageName, 0).versionCode
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
             }
-
             return verCode
         }
-
-
-        /**
-         * 获取应用运行的最大内存
-         *
-         * @return 最大内存
-         */
-        val maxMemory: Long
-            get() = Runtime.getRuntime().maxMemory() / 1024
-
 
         /**
          * 得到软件显示版本信息
@@ -63,15 +47,20 @@ class AppUtils private constructor() {
             var verName = ""
             try {
                 val packageName = context.packageName
-                verName = context.packageManager
-                        .getPackageInfo(packageName, 0).versionName
+                verName = context.packageManager.getPackageInfo(packageName, 0).versionName
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
             }
-
             return verName
         }
 
+        /**
+         * 获取应用运行的最大内存
+         *
+         * @return 最大内存
+         */
+        val maxMemory: Long
+            get() = Runtime.getRuntime().maxMemory() / 1024
 
         @SuppressLint("PackageManagerGetSignatures")
                 /**
@@ -83,15 +72,13 @@ class AppUtils private constructor() {
          */
         fun getSign(context: Context, pkgName: String): String? {
             return try {
-                @SuppressLint("PackageManagerGetSignatures") val pis = context.packageManager
-                        .getPackageInfo(pkgName,
-                                PackageManager.GET_SIGNATURES)
+                @SuppressLint("PackageManagerGetSignatures")
+                val pis = context.packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES)
                 hexDigest(pis.signatures[0].toByteArray())
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
                 null
             }
-
         }
 
         /**
@@ -122,7 +109,6 @@ class AppUtils private constructor() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
             return ""
         }
 

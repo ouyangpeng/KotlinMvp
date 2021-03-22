@@ -25,8 +25,6 @@ object ViewAnimUtils {
         fun onRevealShow()
     }
 
-
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun animateRevealShow(
             context: Context, view: View,
@@ -39,22 +37,23 @@ object ViewAnimUtils {
 
         // 设置圆形显示动画
         val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, startRadius.toFloat(), finalRadius)
-        anim.duration = 300
-        anim.interpolator = AccelerateDecelerateInterpolator()
-        anim.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                view.visibility = View.VISIBLE
-                listener.onRevealShow()
-            }
+        with(anim) {
+            duration = 300
+            interpolator = AccelerateDecelerateInterpolator()
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    view.visibility = View.VISIBLE
+                    listener.onRevealShow()
+                }
 
-            override fun onAnimationStart(animation: Animator) {
-                super.onAnimationStart(animation)
-                view.setBackgroundColor(ContextCompat.getColor(context, color))
-            }
-        })
-
-        anim.start()
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    view.setBackgroundColor(ContextCompat.getColor(context, color))
+                }
+            })
+            start()
+        }
     }
 
     // 圆圈凝聚效果
@@ -62,27 +61,28 @@ object ViewAnimUtils {
     fun animateRevealHide(
             context: Context, view: View,
             finalRadius: Int, @ColorRes color: Int,
-            listener: OnRevealAnimationListener
-    ) {
+            listener: OnRevealAnimationListener) {
         val cx = (view.left + view.right) / 2
         val cy = (view.top + view.bottom) / 2
         val initialRadius = view.width
         // 与入场动画的区别就是圆圈起始和终止的半径相反
         val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, initialRadius.toFloat(), finalRadius.toFloat())
-        anim.duration = 300
-        anim.interpolator = AccelerateDecelerateInterpolator()
-        anim.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator) {
-                super.onAnimationStart(animation)
-                view.setBackgroundColor(ContextCompat.getColor(context, color))
-            }
+        with(anim){
+            duration = 300
+            interpolator = AccelerateDecelerateInterpolator()
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    view.setBackgroundColor(ContextCompat.getColor(context, color))
+                }
 
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                listener.onRevealHide()
-                view.visibility = View.INVISIBLE
-            }
-        })
-        anim.start()
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    listener.onRevealHide()
+                    view.visibility = View.INVISIBLE
+                }
+            })
+            start()
+        }
     }
 }

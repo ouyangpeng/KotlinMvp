@@ -20,15 +20,10 @@ import com.hazz.kotlinmvp.view.recyclerview.adapter.CommonAdapter
 class FollowAdapter(context: Context, dataList: ArrayList<HomeBean.Issue.Item>)
     : CommonAdapter<HomeBean.Issue.Item>(context, dataList, object : MultipleType<HomeBean.Issue.Item> {
     override fun getLayoutId(item: HomeBean.Issue.Item, position: Int): Int {
-        return when {
-            item.type == "videoCollectionWithBrief" ->
-                R.layout.item_follow
-            else ->
-                throw IllegalAccessException("Api 解析出错了，出现其他类型")
-        }
+        return if (item.type == "videoCollectionWithBrief") R.layout.item_follow
+        else throw IllegalAccessException("Api 解析出错了，出现其他类型")
     }
 }) {
-
 
     fun addData(dataList: ArrayList<HomeBean.Issue.Item>) {
         this.mData.addAll(dataList)
@@ -40,11 +35,7 @@ class FollowAdapter(context: Context, dataList: ArrayList<HomeBean.Issue.Item>)
      * 绑定数据
      */
     override fun bindData(holder: ViewHolder, data: HomeBean.Issue.Item, position: Int) {
-
-        when {
-            data.type == "videoCollectionWithBrief" -> setAuthorInfo(data, holder)
-        }
-
+        if (data.type == "videoCollectionWithBrief") setAuthorInfo(data, holder)
     }
 
 
@@ -73,8 +64,8 @@ class FollowAdapter(context: Context, dataList: ArrayList<HomeBean.Issue.Item>)
         /**
          * 设置嵌套水平的 RecyclerView
          */
-        recyclerView.layoutManager = LinearLayoutManager(mContext as Activity,LinearLayoutManager.HORIZONTAL,false)
-        recyclerView.adapter = FollowHorizontalAdapter(mContext,item.data.itemList,R.layout.item_follow_horizontal)
+        recyclerView.layoutManager = LinearLayoutManager(mContext as Activity, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = FollowHorizontalAdapter(mContext, item.data.itemList, R.layout.item_follow_horizontal)
 
     }
 

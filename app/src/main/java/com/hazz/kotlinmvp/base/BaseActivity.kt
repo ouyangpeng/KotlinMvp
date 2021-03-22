@@ -28,18 +28,11 @@ abstract class BaseActivity : AppCompatActivity() {
         initView()
         start()
         initListener()
-
-
     }
 
     private fun initListener() {
-        mLayoutStatusView?.setOnClickListener(mRetryClickListener)
+        mLayoutStatusView?.setOnClickListener { start() }
     }
-
-    open val mRetryClickListener: View.OnClickListener = View.OnClickListener {
-        start()
-    }
-
 
     /**
      *  加载布局
@@ -67,8 +60,10 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     fun openKeyBord(mEditText: EditText, mContext: Context) {
         val imm = mContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(mEditText, InputMethodManager.RESULT_SHOWN)
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        with(imm) {
+            showSoftInput(mEditText, InputMethodManager.RESULT_SHOWN)
+            toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        }
     }
 
     /**
@@ -84,7 +79,6 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
         MyApplication.getRefWatcher(this)?.watch(this)
     }
-
 }
 
 

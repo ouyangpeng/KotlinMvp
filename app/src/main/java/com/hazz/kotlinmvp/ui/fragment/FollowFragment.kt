@@ -13,15 +13,8 @@ import com.hazz.kotlinmvp.showToast
 import com.hazz.kotlinmvp.ui.adapter.FollowAdapter
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
-/**
- * Created by xuhao on 2017/12/7.
- * desc: 关注
- */
+
 class FollowFragment : BaseFragment(), FollowContract.View {
-
-
-
-
     private var mTitle: String? = null
 
     private var itemList = ArrayList<HomeBean.Issue.Item>()
@@ -30,12 +23,10 @@ class FollowFragment : BaseFragment(), FollowContract.View {
 
     private val mFollowAdapter by lazy { FollowAdapter(activity,itemList) }
 
-
     /**
      * 是否加载更多
      */
     private var loadingMore = false
-
 
     init {
         mPresenter.attachView(this)
@@ -54,7 +45,6 @@ class FollowFragment : BaseFragment(), FollowContract.View {
     override fun getLayoutId(): Int = R.layout.layout_recyclerview
 
     override fun initView() {
-
         mRecyclerView.layoutManager = LinearLayoutManager(activity)
         mRecyclerView.adapter = mFollowAdapter
         //实现自动加载

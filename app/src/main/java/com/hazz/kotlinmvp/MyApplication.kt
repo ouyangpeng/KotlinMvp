@@ -11,7 +11,6 @@ import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import com.tencent.bugly.crashreport.CrashReport
 import kotlin.properties.Delegates
 
 
@@ -19,23 +18,18 @@ import kotlin.properties.Delegates
  * Created by xuhao on 2017/11/16.
  *
  */
-
-class MyApplication : Application(){
-
+class MyApplication : Application() {
     private var refWatcher: RefWatcher? = null
 
     companion object {
-
-        private val TAG = "MyApplication"
-
+        private const val TAG = "MyApplication"
         var context: Context by Delegates.notNull()
-            private set
+            private set  //setter()访问器的私有化，并且它拥有kotlin的默认实现
 
         fun getRefWatcher(context: Context): RefWatcher? {
             val myApplication = context.applicationContext as MyApplication
             return myApplication.refWatcher
         }
-
     }
 
     override fun onCreate() {
@@ -45,14 +39,15 @@ class MyApplication : Application(){
         initConfig()
         DisplayManager.init(this)
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
-
-
     }
 
     private fun setupLeakCanary(): RefWatcher {
-        return if (LeakCanary.isInAnalyzerProcess(this)) {
-            RefWatcher.DISABLED
-        } else LeakCanary.install(this)
+        return when {
+            LeakCanary.isInAnalyzerProcess(this) -> {
+                RefWatcher.DISABLED
+            }
+            else -> LeakCanary.install(this)
+        }
     }
 
 
@@ -60,7 +55,6 @@ class MyApplication : Application(){
      * 初始化配置
      */
     private fun initConfig() {
-
         val formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // 隐藏线程信息 默认：显示
                 .methodCount(0)         // 决定打印多少行（每一行代表一个方法）默认：2
@@ -75,33 +69,35 @@ class MyApplication : Application(){
     }
 
 
-    private val mActivityLifecycleCallbacks = object : Application.ActivityLifecycleCallbacks {
-        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            Log.d(TAG, "onCreated: " + activity.componentName.className)
-        }
+    private val mActivityLifecycleCallbacks by lazy {
+        return@lazy object : Application.ActivityLifecycleCallbacks {
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                Log.d(TAG, "onActivityCreated: " + activity.componentName.className)
+            }
 
-        override fun onActivityStarted(activity: Activity) {
-            Log.d(TAG, "onStart: " + activity.componentName.className)
-        }
+            override fun onActivityStarted(activity: Activity) {
+                Log.d(TAG, "onActivityStarted: " + activity.componentName.className)
+            }
 
-        override fun onActivityResumed(activity: Activity) {
+            override fun onActivityResumed(activity: Activity) {
+                Log.d(TAG, "onActivityResumed: " + activity.componentName.className)
+            }
 
-        }
+            override fun onActivityPaused(activity: Activity) {
+                Log.d(TAG, "onActivityPaused: " + activity.componentName.className)
+            }
 
-        override fun onActivityPaused(activity: Activity) {
+            override fun onActivityStopped(activity: Activity) {
+                Log.d(TAG, "onActivityStopped: " + activity.componentName.className)
+            }
 
-        }
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+                Log.d(TAG, "onActivitySaveInstanceState: " + activity.componentName.className)
+            }
 
-        override fun onActivityStopped(activity: Activity) {
-
-        }
-
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-
-        }
-
-        override fun onActivityDestroyed(activity: Activity) {
-            Log.d(TAG, "onDestroy: " + activity.componentName.className)
+            override fun onActivityDestroyed(activity: Activity) {
+                Log.d(TAG, "onActivityDestroyed: " + activity.componentName.className)
+            }
         }
     }
 

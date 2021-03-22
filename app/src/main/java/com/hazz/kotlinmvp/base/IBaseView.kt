@@ -6,9 +6,7 @@ package com.hazz.kotlinmvp.base
  * desc:
  */
 interface IBaseView {
-
     fun showLoading()
 
     fun dismissLoading()
-
 }

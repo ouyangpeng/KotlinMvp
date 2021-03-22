@@ -27,7 +27,6 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait"

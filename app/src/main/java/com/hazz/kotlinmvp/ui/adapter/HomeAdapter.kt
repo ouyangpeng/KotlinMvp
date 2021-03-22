@@ -34,10 +34,9 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
     var bannerItemSize = 0
 
     companion object {
-
-        private val ITEM_TYPE_BANNER = 1    //Banner 类型
-        private val ITEM_TYPE_TEXT_HEADER = 2   //textHeader
-        private val ITEM_TYPE_CONTENT = 3    //item
+        private const val ITEM_TYPE_BANNER = 1    //Banner 类型
+        private const val ITEM_TYPE_TEXT_HEADER = 2   //textHeader
+        private const val ITEM_TYPE_CONTENT = 3    //item
     }
 
     /**
@@ -63,8 +62,10 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
         return when {
             position == 0 ->
                 ITEM_TYPE_BANNER
+
             mData[position + bannerItemSize - 1].type == "textHeader" ->
                 ITEM_TYPE_TEXT_HEADER
+
             else ->
                 ITEM_TYPE_CONTENT
         }
@@ -77,7 +78,9 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
     override fun getItemCount(): Int {
         return when {
             mData.size > bannerItemSize -> mData.size - bannerItemSize + 1
+
             mData.isEmpty() -> 0
+
             else -> 1
         }
     }
@@ -95,10 +98,10 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                 val bannerTitleList = ArrayList<String>()
                 //取出banner 显示的 img 和 Title
                 Observable.fromIterable(bannerItemData)
-                        .subscribe({ list ->
-                            bannerFeedList.add(list.data?.cover?.feed?:"")
-                            bannerTitleList.add(list.data?.title?:"")
-                        })
+                        .subscribe { list ->
+                            bannerFeedList.add(list.data?.cover?.feed ?: "")
+                            bannerTitleList.add(list.data?.title ?: "")
+                        }
 
                 //设置 banner
                 with(holder) {
@@ -119,11 +122,10 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                 }
                 //没有使用到的参数在 kotlin 中用"_"代替
                 holder.getView<BGABanner>(R.id.banner).setDelegate { _, imageView, _, i ->
-
                     goToVideoPlayer(mContext as Activity, imageView, bannerItemData[i])
-
                 }
             }
+
         //TextHeader
             ITEM_TYPE_TEXT_HEADER -> {
                 holder.setText(R.id.tvHeader, mData[position + bannerItemSize - 1].data?.text?:"")
@@ -133,10 +135,7 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
             ITEM_TYPE_CONTENT -> {
                 setVideoItem(holder, mData[position + bannerItemSize - 1])
             }
-
-
         }
-
     }
 
     /**

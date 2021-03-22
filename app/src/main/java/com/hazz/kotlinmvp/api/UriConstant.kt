@@ -5,5 +5,4 @@ package com.hazz.kotlinmvp.api
  */
 object UriConstant{
     val BASE_URL = "http://baobab.kaiyanapp.com/api/"
-
 }

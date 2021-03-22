@@ -36,8 +36,6 @@ interface VideoDetailContract {
          * 设置错误信息
          */
         fun setErrorMsg(errorMsg: String)
-
-
     }
 
     interface Presenter : IPresenter<View> {
@@ -51,7 +49,6 @@ interface VideoDetailContract {
          * 请求相关的视频数据
          */
         fun requestRelatedVideo(id: Long)
-
     }
 
 

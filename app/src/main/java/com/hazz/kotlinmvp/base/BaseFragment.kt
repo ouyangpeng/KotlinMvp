@@ -10,12 +10,6 @@ import com.classic.common.MultipleStatusView
 import com.hazz.kotlinmvp.MyApplication
 import com.hazz.kotlinmvp.showToast
 
-/**
- * @author Xuhao
- * created: 2017/10/25
- * desc:
- */
-
  abstract class BaseFragment: Fragment() {
 
     /**
@@ -35,8 +29,6 @@ import com.hazz.kotlinmvp.showToast
         return inflater?.inflate(getLayoutId(),null)
     }
 
-
-
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isVisibleToUser) {
@@ -50,7 +42,7 @@ import com.hazz.kotlinmvp.showToast
         initView()
         lazyLoadDataIfPrepared()
         //多种状态切换的view 重试点击事件
-        mLayoutStatusView?.setOnClickListener(mRetryClickListener)
+        mLayoutStatusView?.setOnClickListener { lazyLoad() }
     }
 
     private fun lazyLoadDataIfPrepared() {
@@ -59,11 +51,6 @@ import com.hazz.kotlinmvp.showToast
             hasLoadData = true
         }
     }
-
-    open val mRetryClickListener: View.OnClickListener = View.OnClickListener {
-        lazyLoad()
-    }
-
 
     /**
      * 加载布局

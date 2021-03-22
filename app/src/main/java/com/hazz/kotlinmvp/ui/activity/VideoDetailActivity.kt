@@ -44,8 +44,8 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
 
 
     companion object {
-        val IMG_TRANSITION = "IMG_TRANSITION"
-        val TRANSITION = "TRANSITION"
+        const val IMG_TRANSITION = "IMG_TRANSITION"
+        const val TRANSITION = "TRANSITION"
     }
 
 
@@ -183,9 +183,7 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
     }
 
 
-    override fun start() {
-
-    }
+    override fun start() {}
 
 
 
@@ -215,9 +213,7 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
     }
 
 
-    override fun showLoading() {
-
-    }
+    override fun showLoading() {}
 
     override fun dismissLoading() {
         mRefreshLayout.finishRefresh()
@@ -241,7 +237,6 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
         mAdapter.addData(itemInfo)
         // 请求相关的最新等视频
         mPresenter.requestRelatedVideo(itemInfo.data?.id?:0)
-
     }
 
 
@@ -269,9 +264,7 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
     /**
      * 设置错误信息
      */
-    override fun setErrorMsg(errorMsg: String) {
-
-    }
+    override fun setErrorMsg(errorMsg: String) {}
 
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -347,17 +340,13 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
     private fun addTransitionListener() {
         transition = window.sharedElementEnterTransition
         transition?.addListener(object : Transition.TransitionListener {
-            override fun onTransitionResume(p0: Transition?) {
-            }
+            override fun onTransitionResume(p0: Transition?) {}
 
-            override fun onTransitionPause(p0: Transition?) {
-            }
+            override fun onTransitionPause(p0: Transition?) {}
 
-            override fun onTransitionCancel(p0: Transition?) {
-            }
+            override fun onTransitionCancel(p0: Transition?) {}
 
-            override fun onTransitionStart(p0: Transition?) {
-            }
+            override fun onTransitionStart(p0: Transition?) {}
 
             override fun onTransitionEnd(p0: Transition?) {
                 Logger.d("onTransitionEnd()------")
@@ -365,7 +354,6 @@ class VideoDetailActivity : BaseActivity(), VideoDetailContract.View {
                 loadVideoInfo()
                 transition?.removeListener(this)
             }
-
         })
     }
 

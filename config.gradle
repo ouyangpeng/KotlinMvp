@@ -1,5 +1,4 @@
 ext{
-
     android = [
             compileSdkVersion: 26,
             buildToolsVersion: "26.0.2",
@@ -26,7 +25,6 @@ ext{
             annotations             : "com.android.support:support-annotations:$dependVersion.androidSupportSdkVersion"
     ]
 
-
     retrofit = [
             //------ retrofit和RxJava ---------
             retrofit                : "com.squareup.retrofit2:retrofit:$dependVersion.retrofitSdkVersion",
@@ -41,8 +39,6 @@ ext{
     ]
 
 
-
-
     glide = "com.github.bumptech.glide:glide:$dependVersion.glideSdkVersion"
     glideCompiler = "com.github.bumptech.glide:compiler:$dependVersion.glideSdkVersion"
     glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:$dependVersion.glideSdkVersion"
@@ -55,8 +51,5 @@ ext{
 
     // APT
     annotationProcessorLibs =[glideCompiler]
-
-
-
 
 }

@@ -40,9 +40,7 @@ class GlideRoundTransform @JvmOverloads constructor(context: Context = MyApplica
     }
 
 
-    override fun updateDiskCacheKey(messageDigest: MessageDigest) {
-
-    }
+    override fun updateDiskCacheKey(messageDigest: MessageDigest) {}
 
 
     private fun roundCrop(pool: BitmapPool, source: Bitmap?): Bitmap? {

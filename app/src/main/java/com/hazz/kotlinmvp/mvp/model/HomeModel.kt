@@ -11,7 +11,6 @@ import io.reactivex.Observable
  */
 
 class HomeModel{
-
     /**
      * 获取首页 Banner 数据
      */
@@ -28,7 +27,4 @@ class HomeModel{
         return RetrofitManager.service.getMoreHomeData(url)
                 .compose(SchedulerUtils.ioToMain())
     }
-
-
-
 }

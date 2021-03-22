@@ -24,14 +24,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
-/**
- * Created by xuhao on 2017/11/8.
- * 首页精选
- */
 
 class HomeFragment : BaseFragment(), HomeContract.View {
-
-
     private val mPresenter by lazy { HomePresenter() }
 
     private var mTitle: String? = null
@@ -43,6 +37,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     private var loadingMore = false
 
     private var isRefresh = false
+
     private var mMaterialHeader: MaterialHeader? = null
 
     companion object {
@@ -66,7 +61,6 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
 
     override fun getLayoutId(): Int = R.layout.fragment_home
-
 
     /**
      * 初始化 ViewI
@@ -93,11 +87,9 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     val childCount = mRecyclerView.childCount
                     val itemCount = mRecyclerView.layoutManager.itemCount
                     val firstVisibleItem = (mRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (firstVisibleItem + childCount == itemCount) {
-                        if (!loadingMore) {
-                            loadingMore = true
-                            mPresenter.loadMoreData()
-                        }
+                    if (firstVisibleItem + childCount == itemCount && !loadingMore) {
+                        loadingMore = true
+                        mPresenter.loadMoreData()
                     }
                 }
             }
@@ -112,20 +104,20 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     iv_search.setImageResource(R.mipmap.ic_action_search_white)
                     tv_header_title.text = ""
                 } else {
-                    if (mHomeAdapter?.mData!!.size > 1) {
-                        toolbar.setBackgroundColor(getColor(R.color.color_title_bg))
-                        iv_search.setImageResource(R.mipmap.ic_action_search_black)
-                        val itemList = mHomeAdapter!!.mData
-                        val item = itemList[currentVisibleItemPosition + mHomeAdapter!!.bannerItemSize - 1]
-                        if (item.type == "textHeader") {
-                            tv_header_title.text = item.data?.text
-                        } else {
-                            tv_header_title.text = simpleDateFormat.format(item.data?.date)
+                    mHomeAdapter?.let {
+                        if (it.mData.size > 1) {
+                            toolbar.setBackgroundColor(getColor(R.color.color_title_bg))
+                            iv_search.setImageResource(R.mipmap.ic_action_search_black)
+                            val itemList = it.mData
+                            val item = itemList[currentVisibleItemPosition + it.bannerItemSize - 1]
+                            if (item.type == "textHeader") {
+                                tv_header_title.text = item.data?.text
+                            } else {
+                                tv_header_title.text = simpleDateFormat.format(item.data?.date)
+                            }
                         }
                     }
                 }
-
-
             }
         })
 

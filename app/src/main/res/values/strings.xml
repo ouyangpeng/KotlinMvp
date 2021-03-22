@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Kotlin Mvp</string>
+    <string name="app_version">v%s</string>
 
     <string name="video_offline">缓存</string>
     <string name="video_attention">+ 关注</string>
@@ -43,5 +44,24 @@
     <string name="since">copyright ©2017 Xiho.</string>
     <string name="gitHub">GitHub</string>
 
-    
+    <string name="permission_name_read_phone_state">手机状态</string>
+    <string name="permission_name_write_external_storage">存储空间</string>
+    <string name="permission_title">亲爱的上帝</string>
+    <string name="permission_msg">为了能够正常使用，请开启这些权限吧！</string>
+    <string name="permission_user_close">用户关闭了权限</string>
+
+    <string name="init_finish">初始化完毕！</string>
+
+    <string name="title_daily_featured">每日精选</string>
+    <string name="title_discovery">发现</string>
+    <string name="title_hot">热门</string>
+    <string name="title_mine">我的</string>
+    <string name="tag_home">home</string>
+    <string name="tag_discovery">discovery</string>
+    <string name="tag_hot">hot</string>
+    <string name="tag_mine">mine</string>
+    <string name="discovery_tabtitle_follow">关注</string>
+    <string name="discovery_tabtitle_category">分类</string>
+
+
 </resources>

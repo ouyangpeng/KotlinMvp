@@ -24,9 +24,6 @@ import com.hazz.kotlinmvp.view.recyclerview.adapter.CommonAdapter
 
 class CategoryAdapter(mContext: Context, categoryList: ArrayList<CategoryBean>, layoutId: Int) :
         CommonAdapter<CategoryBean>(mContext, categoryList, layoutId) {
-
-
-
     private var textTypeface:Typeface?=null
 
     init {

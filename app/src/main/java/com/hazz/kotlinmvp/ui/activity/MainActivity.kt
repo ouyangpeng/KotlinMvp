@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction
 import android.view.KeyEvent
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.hazz.kotlinmvp.Constants
 import com.hazz.kotlinmvp.R
 import com.hazz.kotlinmvp.base.BaseActivity
 import com.hazz.kotlinmvp.mvp.model.bean.TabEntity
@@ -13,23 +14,28 @@ import com.hazz.kotlinmvp.ui.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-
-/**
- * @author Jake.Ho
- * created: 2017/10/25
- * desc:
- */
-
-
 class MainActivity : BaseActivity() {
+    private val mTitles = arrayOf(
+            R.string.title_daily_featured,
+            R.string.title_discovery,
+            R.string.title_hot,
+            R.string.title_mine)
 
-
-    private val mTitles = arrayOf("每日精选", "发现", "热门", "我的")
+    private val mTags = arrayOf(
+            R.string.tag_home,
+            R.string.tag_discovery,
+            R.string.tag_hot,
+            R.string.tag_mine)
 
     // 未被选中的图标
-    private val mIconUnSelectIds = intArrayOf(R.mipmap.ic_home_normal, R.mipmap.ic_discovery_normal, R.mipmap.ic_hot_normal, R.mipmap.ic_mine_normal)
+    private val mIconUnSelectIds = intArrayOf(
+            R.mipmap.ic_home_normal, R.mipmap.ic_discovery_normal,
+            R.mipmap.ic_hot_normal, R.mipmap.ic_mine_normal)
+
     // 被选中的图标
-    private val mIconSelectIds = intArrayOf(R.mipmap.ic_home_selected, R.mipmap.ic_discovery_selected, R.mipmap.ic_hot_selected, R.mipmap.ic_mine_selected)
+    private val mIconSelectIds = intArrayOf(
+            R.mipmap.ic_home_selected, R.mipmap.ic_discovery_selected,
+            R.mipmap.ic_hot_selected, R.mipmap.ic_mine_selected)
 
     private val mTabEntities = ArrayList<CustomTabEntity>()
 
@@ -41,16 +47,14 @@ class MainActivity : BaseActivity() {
     //默认为0
     private var mIndex = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
-            mIndex = savedInstanceState.getInt("currTabIndex")
+            mIndex = savedInstanceState.getInt(Constants.CURRENT_TAB_INDEX)
         }
         super.onCreate(savedInstanceState)
         initTab()
         tab_layout.currentTab = mIndex
         switchFragment(mIndex)
-
     }
 
     override fun layoutId(): Int {
@@ -60,8 +64,10 @@ class MainActivity : BaseActivity() {
 
     //初始化底部菜单
     private fun initTab() {
-        (0 until mTitles.size)
-                .mapTo(mTabEntities) { TabEntity(mTitles[it], mIconSelectIds[it], mIconUnSelectIds[it]) }
+        // 遍历，赋值
+        (mTitles.indices).mapTo(mTabEntities) {
+            TabEntity(getString(mTitles[it]), mIconSelectIds[it], mIconUnSelectIds[it])
+        }
         //为Tab赋值
         tab_layout.setTabData(mTabEntities)
         tab_layout.setOnTabSelectListener(object : OnTabSelectListener {
@@ -70,9 +76,7 @@ class MainActivity : BaseActivity() {
                 switchFragment(position)
             }
 
-            override fun onTabReselect(position: Int) {
-
-            }
+            override fun onTabReselect(position: Int) {}
         })
     }
 
@@ -83,36 +87,44 @@ class MainActivity : BaseActivity() {
     private fun switchFragment(position: Int) {
         val transaction = supportFragmentManager.beginTransaction()
         hideFragments(transaction)
+
+        val title = getString(mTitles[position])
+        val tag = getString(mTags[position])
+
         when (position) {
-            0 // 首页
-            -> mHomeFragment?.let {
+            // 首页
+            0 -> mHomeFragment?.let {
                 transaction.show(it)
-            } ?: HomeFragment.getInstance(mTitles[position]).let {
+            } ?: HomeFragment.getInstance(title).let {
                 mHomeFragment = it
-                transaction.add(R.id.fl_container, it, "home")
+                transaction.add(R.id.fl_container, it, tag)
             }
-            1  //发现
-            -> mDiscoveryFragment?.let {
+
+            //发现
+            1 -> mDiscoveryFragment?.let {
                 transaction.show(it)
-            } ?: DiscoveryFragment.getInstance(mTitles[position]).let {
+            } ?: DiscoveryFragment.getInstance(title).let {
                 mDiscoveryFragment = it
-                transaction.add(R.id.fl_container, it, "discovery") }
-            2  //热门
-            -> mHotFragment?.let {
-                transaction.show(it)
-            } ?: HotFragment.getInstance(mTitles[position]).let {
-                mHotFragment = it
-                transaction.add(R.id.fl_container, it, "hot") }
-            3 //我的
-            -> mMineFragment?.let {
-                transaction.show(it)
-            } ?: MineFragment.getInstance(mTitles[position]).let {
-                mMineFragment = it
-                transaction.add(R.id.fl_container, it, "mine") }
-
-            else -> {
-
+                transaction.add(R.id.fl_container, it, tag)
             }
+
+            //热门
+            2 -> mHotFragment?.let {
+                transaction.show(it)
+            } ?: HotFragment.getInstance(title).let {
+                mHotFragment = it
+                transaction.add(R.id.fl_container, it, tag)
+            }
+
+            //我的
+            3 -> mMineFragment?.let {
+                transaction.show(it)
+            } ?: MineFragment.getInstance(title).let {
+                mMineFragment = it
+                transaction.add(R.id.fl_container, it, tag)
+            }
+
+            else -> { }
         }
 
         mIndex = position
@@ -138,21 +150,15 @@ class MainActivity : BaseActivity() {
 //        super.onSaveInstanceState(outState)
         //记录fragment的位置,防止崩溃 activity被系统回收时，fragment错乱
         if (tab_layout != null) {
-            outState.putInt("currTabIndex", mIndex)
+            outState.putInt(Constants.CURRENT_TAB_INDEX, mIndex)
         }
     }
 
-    override fun initView() {
+    override fun initView() {}
 
-    }
+    override fun initData() {}
 
-    override fun initData() {
-
-    }
-
-    override fun start() {
-
-    }
+    override fun start() {}
 
     private var mExitTime: Long = 0
 
@@ -168,6 +174,4 @@ class MainActivity : BaseActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
-
 }

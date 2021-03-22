@@ -10,12 +10,10 @@ import io.reactivex.disposables.Disposable
  *
  */
 open class BasePresenter<T : IBaseView> : IPresenter<T> {
-
     var mRootView: T? = null
         private set
 
     private var compositeDisposable = CompositeDisposable()
-
 
     override fun attachView(mRootView: T) {
         this.mRootView = mRootView
@@ -28,7 +26,6 @@ open class BasePresenter<T : IBaseView> : IPresenter<T> {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.clear()
         }
-
     }
 
     private val isViewAttached: Boolean

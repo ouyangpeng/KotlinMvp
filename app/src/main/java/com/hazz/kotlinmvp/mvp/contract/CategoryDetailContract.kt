@@ -17,10 +17,6 @@ interface CategoryDetailContract {
         fun setCateDetailList(itemList:ArrayList<HomeBean.Issue.Item>)
 
         fun showError(errorMsg:String)
-
-
-
-
     }
 
     interface Presenter:IPresenter<View>{

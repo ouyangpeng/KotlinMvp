@@ -9,10 +9,6 @@ import com.hazz.kotlinmvp.utils.StatusBarUtil
 import com.hazz.kotlinmvp.view.TabLayoutHelper
 import kotlinx.android.synthetic.main.fragment_hot.*
 
-/**
- * Created by xuhao on 2017/12/7.
- * desc: 发现(和热门首页同样的布局）
- */
 class DiscoveryFragment : BaseFragment() {
 
     private val tabList = ArrayList<String>()
@@ -41,10 +37,13 @@ class DiscoveryFragment : BaseFragment() {
 
         tv_header_title.text = mTitle
 
-        tabList.add("关注")
-        tabList.add("分类")
-        fragments.add(FollowFragment.getInstance("关注"))
-        fragments.add(CategoryFragment.getInstance("分类"))
+        val follow = getString(R.string.discovery_tabtitle_follow)
+        val category = getString(R.string.discovery_tabtitle_category)
+        tabList.add(follow)
+        tabList.add(category)
+
+        fragments.add(FollowFragment.getInstance(follow))
+        fragments.add(CategoryFragment.getInstance(category))
 
         /**
          * getSupportFragmentManager() 替换为getChildFragmentManager()
@@ -52,10 +51,7 @@ class DiscoveryFragment : BaseFragment() {
         mViewPager.adapter = BaseFragmentAdapter(childFragmentManager, fragments, tabList)
         mTabLayout.setupWithViewPager(mViewPager)
         TabLayoutHelper.setUpIndicatorWidth(mTabLayout)
-
-
     }
 
-    override fun lazyLoad() {
-    }
+    override fun lazyLoad() {}
 }

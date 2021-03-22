@@ -50,9 +50,7 @@ class CustomBaseGlideUrlLoader(concreteLoader: ModelLoader<GlideUrl, InputStream
             return CustomBaseGlideUrlLoader(multiFactory.build(GlideUrl::class.java, InputStream::class.java), urlCache)
         }
 
-        override fun teardown() {
-
-        }
+        override fun teardown() {}
     }
 
     companion object {

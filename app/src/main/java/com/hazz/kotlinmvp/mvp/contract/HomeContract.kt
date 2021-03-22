@@ -12,7 +12,6 @@ import com.hazz.kotlinmvp.mvp.model.bean.HomeBean
 interface HomeContract {
 
     interface View : IBaseView {
-
         /**
          * 设置第一次请求的数据
          */
@@ -27,12 +26,9 @@ interface HomeContract {
          * 显示错误信息
          */
         fun showError(msg: String,errorCode:Int)
-
-
     }
 
     interface Presenter : IPresenter<View> {
-
         /**
          * 获取首页精选数据
          */
@@ -42,8 +38,6 @@ interface HomeContract {
          * 加载更多数据
          */
         fun loadMoreData()
-
-
     }
 
 
